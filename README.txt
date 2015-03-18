@@ -1,33 +1,11 @@
-Plugin Builder Results
+How to use the plugin? First off all we have to mention do not use more, than plus or minus 90 degrees in the latitude field,by the way we hope you can't. Thus, at the latitude and longitude parameters, please fill the minimum and maximum values, like in a mesh grid. So we you You write 30 to minimum longitude and 90 to maximum with 1 inner point, then you will see three columns (30, 60, 90 degrees) as result. The -180 and 180 borders of longtude are come from the 360 degree circle, so you should not set a value out of this range. If you set 1 inner point in this case, it's calculated by a linear interpolation, so it took place at 0 (Greenwich meridian). The lines and circle segments means the preciseness of the circle and the axes (parallel of latitude, meridian line). By increasing their segment-value they are getting more precise, exact.
 
-Your plugin tiss was created in:
-    C:\Users\QnPi\.qgis2\python\plugins\tiss
+The radius parameter means the magnitude of projecting tiss circles. The term tiss comes after Tissot.
 
-Your QGIS plugin directory is located at:
-    C:/Users/QnPi/.qgis2/python/plugins
+Authors:
 
-What's Next:
+Ervin Wirth,
+Technical University of Budapest, Photogrammetry and Geoinformatics Department, PhD student
 
-  * Copy the entire directory containing your new plugin to the QGIS plugin
-    directory
-
-  * Compile the resources file using pyrcc4
-
-  * Run the tests (``make test``)
-
-  * Test the plugin by enabling it in the QGIS plugin manager
-
-  * Customize it by editing the implementation file: ``indicatrix_mapper.py``
-
-  * Create your own custom icon, replacing the default icon.png
-
-  * Modify your user interface by opening tiss.ui in Qt Designer
-
-  * You can use the Makefile to compile your Ui and resource files when
-    you make changes. This requires GNU make (gmake)
-
-For more information, see the PyQGIS Developer Cookbook at:
-http://www.qgis.org/pyqgis-cookbook/index.html
-
-(C) 2011-2014 GeoApt LLC - geoapt.com
-Git revision : $Format:%H$
+Kun Peter,
+Institute if Geodesy, Cartography and Remote Sensing, GIS developer
