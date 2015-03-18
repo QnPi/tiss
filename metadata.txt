@@ -25,8 +25,8 @@ email=wirthervin@gmail.com, kunpeter01@gmail.com
 tags=indicatrix, indikatrix, distortions, tissot, tiss
 
 homepage=https://www.facebook.com/pages/QGIS-Magyarorsz%C3%A1g/1489090374654399?fref=ts
-tracker=
-repository=
+tracker=https://github.com/QnPi/tiss/issues
+repository=https://github.com/QnPi/tiss
 category=Vector
 icon=icon.png
 # experimental flag
