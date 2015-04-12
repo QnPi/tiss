@@ -62,20 +62,20 @@ class tissDialog(QDialog, Ui_Tiss):
         self.resl = self.spbLineSeg.value() # line segments no.
         self.radius = self.spbRadius.value() # tiss circle radius
         self.R = 6371.007 # sphere radius, constant
-        # latitude resolution 
-        self.maxlat = self.spbLatMax.value() 
-        self.minlat = self.spbLatMin.value() 
+        # latitude resolution
+        self.maxlat = self.spbLatMax.value()
+        self.minlat = self.spbLatMin.value()
         self.innerplat = self.spbLatRes.value()
         # longitude resolution
-        self.minlon = self.spbLongMin.value() 
-        self.maxlon = self.spbLongMax.value() 
-        self.innerplon =  self.spbLongRes.value() 
-            
+        self.minlon = self.spbLongMin.value()
+        self.maxlon = self.spbLongMax.value()
+        self.innerplon =  self.spbLongRes.value()
+
     def FunExecute(self):
         self.FunInputs()
         self.FunAddTissCircleLayer()
         self.FunAddTissLineLayer()
-        
+
 
     def FunAddTissCircleLayer(self):
         # create layer
@@ -96,22 +96,22 @@ class tissDialog(QDialog, Ui_Tiss):
         QgsMapLayerRegistry.instance().addMapLayer(self.vl)
 
     def FunAddTissLineLayer(self):
-	# create layer
-	self.vl = QgsVectorLayer("LineString?crs=epsg:4047", "lines", "memory")
-	self.pr = self.vl.dataProvider()
-	# changes are only possible when editing the layer
-	self.vl.startEditing()
-	# add fields
-	self.pr.addAttributes([QgsField("lon", QVariant.Double),QgsField("lat", QVariant.Double)])
-	#calculate tiss lines
-	self.FunCalcTissLines()
-	# commit to stop editing the layer
-	self.vl.commitChanges()
-	# update layer's extent when new features have been added
-	# because change of extent in provider is not propagated to the layer
-	self.vl.updateExtents()
-	# add layer to the legend
-	QgsMapLayerRegistry.instance().addMapLayer(self.vl)
+        # create layer
+        self.vl = QgsVectorLayer("LineString?crs=epsg:4047", "lines", "memory")
+        self.pr = self.vl.dataProvider()
+    	# changes are only possible when editing the layer
+        self.vl.startEditing()
+    	# add fields
+        self.pr.addAttributes([QgsField("lon", QVariant.Double),QgsField("lat", QVariant.Double)])
+    	#calculate tiss lines
+        self.FunCalcTissLines()
+    	# commit to stop editing the layer
+        self.vl.commitChanges()
+    	# update layer's extent when new features have been added
+    	# because change of extent in provider is not propagated to the layer
+        self.vl.updateExtents()
+    	# add layer to the legend
+        QgsMapLayerRegistry.instance().addMapLayer(self.vl)
 
     def FunCalcTissCircles(self):
         # set up inner points
@@ -135,18 +135,18 @@ class tissDialog(QDialog, Ui_Tiss):
                 startPoint  = []
                 middlePoint  = []
                 for alfa in alfalist:
-                    # calculating the latitudes
+                    # calculating the latitudes with spherical law of cosines
                     tpf = numpy.arccos( numpy.cos(r)*numpy.cos(t0)+numpy.sin(r)*numpy.sin(t0)*numpy.cos(alfa) )
                     dFi = numpy.degrees(t0-tpf)
-                    # calculating the longitudes
-                    dLambda = numpy.degrees(numpy.arccos( (numpy.cos(r) - numpy.cos(t0) * numpy.cos(tpf)) / (numpy.sin(t0) * numpy.sin(tpf))))
+                    # calculating the longitudes with spherical law of sines
+                    dLambda = numpy.degrees(numpy.arcsin(numpy.sin(alfa)*numpy.sin(r)/numpy.sin(tpf)))
                     rightlist.append(QgsPoint(lon+dLambda,lat+dFi))
                     leftlist.append(QgsPoint(lon-dLambda,lat+dFi))
                 leftlist.reverse()
                 startPoint.append(QgsPoint(lon,lat+numpy.degrees(r)))
                 middlePoint.append(QgsPoint(lon,lat-numpy.degrees(r)))
                 mergedlist = list(startPoint + rightlist + middlePoint + leftlist )
-                
+
                 # add a feature
                 fet = QgsFeature()
                 fet.setGeometry(QgsGeometry.fromPolygon([mergedlist]))
@@ -188,4 +188,4 @@ class tissDialog(QDialog, Ui_Tiss):
                 self.pr.addFeatures([feth])
 
 
-        
+
