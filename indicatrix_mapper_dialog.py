@@ -50,17 +50,23 @@ class tissDialog(QDialog, Ui_Tiss):
         self.ui = Ui_Tiss()
         self.FunAllSignals()
         self.FunInputs()
-
+        self.spbRadiusDg.setValue(6);
 
 
     def FunAllSignals(self):
         self.connect(self.btnRun, SIGNAL("clicked()"), self.FunExecute)
+        self.connect(self.spbRadiusDg, SIGNAL("valueChanged(double)"), self.FunCalcDeg)
+        self.connect(self.spbRadiusKm, SIGNAL("valueChanged(double)"), self.FunCalcKm)
+        self.connect(self.spbLongMin, SIGNAL("valueChanged(double)"), self.FunMinLongChange)
+        self.connect(self.spbLongMax, SIGNAL("valueChanged()"), self.FunMaxLongChange)
+        self.connect(self.spbLatMin, SIGNAL("valueChanged()"), self.FunMinLatChange)
+        self.connect(self.spbLatMax, SIGNAL("valueChanged()"), self.FunMaxLatChange)
 
     def FunInputs(self):
         # circle parameters
         self.res =  self.spbCircleSeg.value() # circle segments no.
         self.resl = self.spbLineSeg.value() # line segments no.
-        self.radius = self.spbRadius.value() # tiss circle radius
+        self.radius = self.spbRadiusKm.value() # tiss circle radius
         self.R = 6371.007 # sphere radius, constant
         # latitude resolution
         self.maxlat = self.spbLatMax.value()
@@ -70,7 +76,34 @@ class tissDialog(QDialog, Ui_Tiss):
         self.minlon = self.spbLongMin.value()
         self.maxlon = self.spbLongMax.value()
         self.innerplon =  self.spbLongRes.value()
-
+    
+    def FunCalcKm(self):
+        dg = self.spbRadiusKm.value()/(2*self.R*numpy.pi)*360
+        self.spbRadiusDg.setValue(dg)
+    
+    def FunCalcDeg(self):
+        self.spbLatRes.setMinimum(self.spbRadiusDg.value()*2)
+        self.spbLongRes.setMinimum(self.spbRadiusDg.value()*2)
+        #km mező számítása
+        km = self.spbRadiusDg.value()/360*2*self.R*numpy.pi
+        self.spbRadiusKm.setValue(km) 
+        self.spbLatMax.setMaximum(90-self.spbRadiusDg.value())
+        self.spbLatMin.setMinimum(-90+self.spbRadiusDg.value())
+    
+    def FunMaxLatChange(self):
+        self.spbLatMin.setMaximum(self.spbLatMax.value()-1)
+    
+    def FunMinLatChange(self):
+        self.spbLatMax.setMinimum(self.spbLatMin.value()+1)
+    
+    def FunMaxLongChange(self):
+        self.spbLongMin.setMaximum(self.spbLongMax.value()-1)
+    
+    def FunMinLongChange(self):
+        QMessageBox.information(None, "DEBUG:", str(self.spbLongMax.Minimum())) 
+        self.spbLongMax.setMinimum(self.spbLongMin.value()+1)
+        
+    
     def FunExecute(self):
         self.FunInputs()
         self.FunAddTissCircleLayer()
