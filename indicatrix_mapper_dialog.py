@@ -64,8 +64,8 @@ class tissDialog(QDialog, Ui_Tiss):
         # circle parameters
         self.res = self.spbCircleSeg.value()  # circle segments no.
         self.resl = self.spbLineSeg.value()  # line segments no.
-        self.radius = self.spbRadius.value()  # tiss circle radius
-        self.R = 6371.000  # sphere radius, constant
+        self.radius = self.spbRadiusKm.value()  # tiss circle radius
+        self.R = self.spbRadius.value() /1000# sphere radius, constant
         # R = 6372.200 # in case of unknown radii you have to create the layer twice...
         # R = 6371.007
         # latitude resolution
@@ -77,8 +77,8 @@ class tissDialog(QDialog, Ui_Tiss):
         self.maxlon = self.spbLongMax.value()
         self.innerplon = self.spbLongRes.value()
         # poles checkbox
-        self.npolep = self.chkBoxNPole.value()
-        self.spolep = self.chkBoxSPole.value()
+        self.npolep = self.chkBoxNPole.isChecked() 
+        self.spolep = self.chkBoxSPole.isChecked() 
 
     def km_to_deg(self):
         dg = self.spbRadiusKm.value() / (2 * self.R * numpy.pi) * 360
@@ -210,7 +210,7 @@ class tissDialog(QDialog, Ui_Tiss):
                     rightlist.append(QgsPoint(lon + dLambda, lat + dFi))
                     leftlist.append(QgsPoint(lon - dLambda, lat + dFi))
                 leftlist.reverse()
-                startPoint.append(QgsPoint(lon, lat + numpy.degrees(r)))
+                startpoint.append(QgsPoint(lon, lat + numpy.degrees(r)))
                 middlePoint.append(QgsPoint(lon, lat - numpy.degrees(r)))
                 mergedlist = list(startpoint + rightlist + middlePoint + leftlist)
                 # add a feature
