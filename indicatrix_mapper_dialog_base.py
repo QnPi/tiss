@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'c:\Users\QnPi\.qgis2\python\plugins\tiss\indicatrix_mapper_dialog_base.ui'
 #
-# Created: Mon Apr 27 18:59:50 2015
+# Created: Mon Apr 27 19:21:45 2015
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -240,6 +240,6 @@ class Ui_Tiss(object):
         self.label_8.setText(_translate("Tiss", "Radius or the circles", None))
         self.label_12.setText(_translate("Tiss", "Sphere radius [m]", None))
         self.lblCircleSeg.setText(_translate("Tiss", "Circle segments", None))
-        self.chkBoxSPole.setText(_translate("Tiss", "Circles on sout poles", None))
+        self.chkBoxSPole.setText(_translate("Tiss", "Circles on south pole", None))
         self.chkBoxNPole.setText(_translate("Tiss", "Circles on north pole", None))
 

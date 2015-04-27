@@ -449,7 +449,7 @@
        <enum>Qt::RightToLeft</enum>
       </property>
       <property name="text">
-       <string>Circles on sout poles</string>
+       <string>Circles on south pole</string>
       </property>
      </widget>
     </item>
