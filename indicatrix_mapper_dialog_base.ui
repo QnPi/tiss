@@ -82,7 +82,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Max. Lon.</string>
+       <string>Lon. max</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -111,7 +111,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Min Lon.</string>
+       <string>Lon. min</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -127,7 +127,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Max. Lat.</string>
+       <string>Lat. max</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -182,7 +182,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Min. Lat.</string>
+       <string>Lat. min</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -370,7 +370,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Radius or the circles</string>
+       <string>Radius of the circles</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -392,7 +392,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Sphere radius [m]</string>
+       <string>Spherical radius [m]</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -449,7 +449,7 @@
        <enum>Qt::RightToLeft</enum>
       </property>
       <property name="text">
-       <string>Circles on south pole</string>
+       <string>Circle on south pole</string>
       </property>
      </widget>
     </item>
@@ -478,7 +478,7 @@
        <enum>Qt::RightToLeft</enum>
       </property>
       <property name="text">
-       <string>Circles on north pole</string>
+       <string>Circle on north pole</string>
       </property>
      </widget>
     </item>

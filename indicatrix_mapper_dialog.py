@@ -65,7 +65,7 @@ class tissDialog(QDialog, Ui_Tiss):
         self.res = self.spbCircleSeg.value()  # circle segments no.
         self.resl = self.spbLineSeg.value()  # line segments no.
         self.radius = self.spbRadiusKm.value()  # tiss circle radius
-        self.R = self.spbRadius.value() /1000# sphere radius, constant
+        self.R = float(self.spbRadius.value()) / 1000  # sphere radius, constant
         # R = 6372.200 # in case of unknown radii you have to create the layer twice...
         # R = 6371.007
         # latitude resolution
@@ -77,8 +77,8 @@ class tissDialog(QDialog, Ui_Tiss):
         self.maxlon = self.spbLongMax.value()
         self.innerplon = self.spbLongRes.value()
         # poles checkbox
-        self.npolep = self.chkBoxNPole.isChecked() 
-        self.spolep = self.chkBoxSPole.isChecked() 
+        self.npolep = self.chkBoxNPole.isChecked()
+        self.spolep = self.chkBoxSPole.isChecked()
 
     def km_to_deg(self):
         dg = self.spbRadiusKm.value() / (2 * self.R * numpy.pi) * 360
@@ -142,7 +142,7 @@ class tissDialog(QDialog, Ui_Tiss):
         wkt = 'GEOGCS["unnamed ellipse",DATUM["unknown",SPHEROID["unnamed",' + str(
             int(self.R * 1000)) + ',0]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
         # Sometimes (new R) you have to reset the USER:X CRS to the layer...
-        self.vl = QgsVectorLayer("Polygon?crs=" + wkt, "lines", "memory")
+        self.vl = QgsVectorLayer("LineString?crs=" + wkt, "lines", "memory")
         self.pr = self.vl.dataProvider()
         # changes are only possible when editing the layer
         self.vl.startEditing()
@@ -186,8 +186,8 @@ class tissDialog(QDialog, Ui_Tiss):
 
     def tiss_circles(self):
         # set up inner points
-        latlist = numpy.arange(self.minlat, self.maxlat, self.innerplat)
-        lonlist = numpy.arange(self.minlon, self.maxlon, self.innerplon)
+        latlist = range(self.minlat, self.maxlat + self.innerplat, self.innerplat)
+        lonlist = range(self.minlon, self.maxlon + self.innerplat, self.innerplon)
         # arc of the radius on sphere
         r = self.radius / self.R
         # calculate half circle arc with given resolution
@@ -221,8 +221,8 @@ class tissDialog(QDialog, Ui_Tiss):
 
     def tiss_lines(self):
         # set up inner points
-        latlist = numpy.arange(self.minlat, self.maxlat, self.innerplat)
-        lonlist = numpy.arange(self.minlon, self.maxlon, self.innerplon)
+        latlist = range(self.minlat, self.maxlat + self.innerplat, self.innerplat)
+        lonlist = range(self.minlon, self.maxlon + self.innerplat, self.innerplon)
         r = self.radius / self.R
         for lon in lonlist:
             for lat in latlist:

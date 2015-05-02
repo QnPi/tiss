@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\QnPi\.qgis2\python\plugins\tiss\indicatrix_mapper_dialog_base.ui'
+# Form implementation generated from reading ui file 'd:\git\tiss\indicatrix_mapper_dialog_base.ui'
 #
-# Created: Mon Apr 27 19:21:45 2015
-#      by: PyQt4 UI code generator 4.10.2
+# Created: Sat May 02 15:38:32 2015
+#      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -227,19 +227,29 @@ class Ui_Tiss(object):
     def retranslateUi(self, Tiss):
         Tiss.setWindowTitle(_translate("Tiss", "Tiss", None))
         self.btnRun.setText(_translate("Tiss", "Run!", None))
-        self.lblLongMax.setText(_translate("Tiss", "Max. Lon.", None))
-        self.lblLongMin.setText(_translate("Tiss", "Min Lon.", None))
-        self.lblLatMax.setText(_translate("Tiss", "Max. Lat.", None))
-        self.lblLatMin.setText(_translate("Tiss", "Min. Lat.", None))
+        self.lblLongMax.setText(_translate("Tiss", "Lon. max", None))
+        self.lblLongMin.setText(_translate("Tiss", "Lon. min", None))
+        self.lblLatMax.setText(_translate("Tiss", "Lat. max", None))
+        self.lblLatMin.setText(_translate("Tiss", "Lat. min", None))
         self.label_10.setText(_translate("Tiss", "Extent", None))
         self.lblRadius.setText(_translate("Tiss", "Latitude resolution: ", None))
         self.label_6.setText(_translate("Tiss", "Longitude resolution:", None))
         self.lblCircleSeg_2.setText(_translate("Tiss", "Line segments", None))
         self.label_11.setText(_translate("Tiss", "[km]: ", None))
         self.label_9.setText(_translate("Tiss", "[degree]: ", None))
-        self.label_8.setText(_translate("Tiss", "Radius or the circles", None))
-        self.label_12.setText(_translate("Tiss", "Sphere radius [m]", None))
+        self.label_8.setText(_translate("Tiss", "Radius of the circles", None))
+        self.label_12.setText(_translate("Tiss", "Spherical radius [m]", None))
         self.lblCircleSeg.setText(_translate("Tiss", "Circle segments", None))
-        self.chkBoxSPole.setText(_translate("Tiss", "Circles on south pole", None))
-        self.chkBoxNPole.setText(_translate("Tiss", "Circles on north pole", None))
+        self.chkBoxSPole.setText(_translate("Tiss", "Circle on south pole", None))
+        self.chkBoxNPole.setText(_translate("Tiss", "Circle on north pole", None))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    Tiss = QtGui.QDialog()
+    ui = Ui_Tiss()
+    ui.setupUi(Tiss)
+    Tiss.show()
+    sys.exit(app.exec_())
 

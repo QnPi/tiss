@@ -9,8 +9,8 @@
 [general]
 name=Indicatrix mapper
 qgisMinimumVersion=2.0
-description=The plugin presents the tiss-indicatrix (quick-and-dirty Tissot-indicatrix realization) introduced by Szabó and Wirth. The tiss-indicatrix uses circles of constant (in this case 800 kilometers) radius instead of the original infinitesimal circles. We projects the tiss-circles from a reference sphere to a selected projection. The software uses On The Fly (OTF) transformation method. Then we can study the distortions of the circles in a blink. The QGIS contains approximately 2 700 categorized projections. Special thanks to Matyas Gede for his useful advises.
-version=0.1
+description=The plugin presents the tiss-indicatrix (quick-and-dirty Tissot-indicatrix realization) introduced by Szabó and Wirth. The tiss-indicatrix uses circles of constant radius instead of the original infinitesimal circles. The plugin projects the tiss-circles from a reference sphere to a selected projection. By using On The Fly (OTF) transformation method we can study the distortions of the circles in a blink. QGIS contains approximately 2 700 categorized projections. Special thanks to Matyas Gede for his useful advises.
+version=1.0
 author=Ervin Wirth, Peter Kun
 email=wirthervin@gmail.com, kunpeter01@gmail.com
 
