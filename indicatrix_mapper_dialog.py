@@ -195,8 +195,7 @@ class tissDialog(QDialog, Ui_Tiss):
         alfalist.pop(0)
         for lon in lonlist:
             for lat in latlist:
-                tlat = numpy.radians(lat)
-                t0 = numpy.pi / 2 - tlat
+                t0 = numpy.pi / 2 - numpy.radians(lat)
                 rightlist = []
                 leftlist = []
                 startpoint = []
@@ -204,11 +203,11 @@ class tissDialog(QDialog, Ui_Tiss):
                 for alfa in alfalist:
                     # calculating the latitudes with spherical law of cosines
                     tpf = numpy.arccos(numpy.cos(r) * numpy.cos(t0) + numpy.sin(r) * numpy.sin(t0) * numpy.cos(alfa))
-                    dFi = numpy.degrees(t0 - tpf)
+                    dFi = numpy.degrees(tpf)
                     # calculating the longitudes with spherical law of sines
                     dLambda = numpy.degrees(numpy.arcsin(numpy.sin(alfa) * numpy.sin(r) / numpy.sin(tpf)))
-                    rightlist.append(QgsPoint(lon + dLambda, lat + dFi))
-                    leftlist.append(QgsPoint(lon - dLambda, lat + dFi))
+                    rightlist.append(QgsPoint(lon + dLambda, 90 - dFi))
+                    leftlist.append(QgsPoint(lon - dLambda, 90 - dFi))
                 leftlist.reverse()
                 startpoint.append(QgsPoint(lon, lat + numpy.degrees(r)))
                 middlePoint.append(QgsPoint(lon, lat - numpy.degrees(r)))
