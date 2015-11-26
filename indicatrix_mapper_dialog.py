@@ -70,15 +70,23 @@ class tissDialog(QDialog, Ui_Tiss):
         # R = 6371.007
         # latitude resolution
         self.maxlat = self.spbLatMax.value()
+        self.maxlat2 = self.spbLatMax_2.value()
         self.minlat = self.spbLatMin.value()
+        self.minlat2 = self.spbLatMin_2.value()
         self.innerplat = self.spbLatRes.value()
+        self.innerplat2 = self.spbLatRes_2.value()
         # longitude resolution
         self.minlon = self.spbLongMin.value()
+        self.minlon2 = self.spbLongMin_2.value()
         self.maxlon = self.spbLongMax.value()
+        self.maxlon2 = self.spbLongMax_2.value()
         self.innerplon = self.spbLongRes.value()
+        self.innerplon2 = self.spbLongRes_2.value()
         # poles checkbox
         self.npolep = self.chkBoxNPole.isChecked()
         self.spolep = self.chkBoxSPole.isChecked()
+        self.auxp = self.chkBoxAux.isChecked()
+		
 
     def km_to_deg(self):
         dg = self.spbRadiusKm.value() / (2 * self.R * numpy.pi) * 360
@@ -116,12 +124,16 @@ class tissDialog(QDialog, Ui_Tiss):
         wkt = 'GEOGCS["unnamed ellipse",DATUM["unknown",SPHEROID["unnamed",' + str(
             int(self.R * 1000)) + ',0]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
         # Sometimes (new R) you have to reset the USER:X CRS to the layer...
-        self.vl = QgsVectorLayer("Polygon?crs=" + wkt, "circles", "memory")
+        self.vl = QgsVectorLayer("Polygon?crs=" + wkt, "tisses", "memory")
+        self.vl2 = QgsVectorLayer("MultiPoint?crs=" + wkt, "auxpoints", "memory")
         self.pr = self.vl.dataProvider()
+        self.pr2 = self.vl2.dataProvider()
         # changes are only possible when editing the layer
         self.vl.startEditing()
+        self.vl2.startEditing()
         # add fields
         self.pr.addAttributes([QgsField("lon", QVariant.Double), QgsField("lat", QVariant.Double)])
+        self.pr2.addAttributes([QgsField("lon", QVariant.Double), QgsField("lat", QVariant.Double)])
         # calculate polygons
         self.tiss_circles()
         # here we need a switch about poles, then function called
@@ -129,11 +141,22 @@ class tissDialog(QDialog, Ui_Tiss):
             self.tiss_north_pole()
         if self.spolep:
             self.tiss_south_pole()
+        if self.auxp:
+            self.vl2.commitChanges()
+            self.vl2.updateExtents()
+            mNoSimplification = QgsVectorSimplifyMethod()
+            mNoSimplification.setSimplifyHints(QgsVectorSimplifyMethod.NoSimplification)
+            self.vl2.setSimplifyMethod(mNoSimplification)
+            QgsMapLayerRegistry.instance().addMapLayer(self.vl2)
         # commit to stop editing the layer
         self.vl.commitChanges()
         # update layer's extent when new features have been added
         # because change of extent in provider is not propagated to the layer
         self.vl.updateExtents()
+        # no simplify
+        mNoSimplification = QgsVectorSimplifyMethod()
+        mNoSimplification.setSimplifyHints(QgsVectorSimplifyMethod.NoSimplification)
+        self.vl.setSimplifyMethod(mNoSimplification)
         # add layer to the legend
         QgsMapLayerRegistry.instance().addMapLayer(self.vl)
 
@@ -142,11 +165,10 @@ class tissDialog(QDialog, Ui_Tiss):
         wkt = 'GEOGCS["unnamed ellipse",DATUM["unknown",SPHEROID["unnamed",' + str(
             int(self.R * 1000)) + ',0]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
         # Sometimes (new R) you have to reset the USER:X CRS to the layer...
-        self.vl = QgsVectorLayer("LineString?crs=" + wkt, "lines", "memory")
+        self.vl = QgsVectorLayer("LineString?crs=" + wkt, "graticule", "memory")
         self.pr = self.vl.dataProvider()
         # changes are only possible when editing the layer
         self.vl.startEditing()
-        # add fields
         self.pr.addAttributes([QgsField("lon", QVariant.Double), QgsField("lat", QVariant.Double)])
         # calculate tiss lines
         self.tiss_lines()
@@ -155,6 +177,10 @@ class tissDialog(QDialog, Ui_Tiss):
         # update layer's extent when new features have been added
         # because change of extent in provider is not propagated to the layer
         self.vl.updateExtents()
+        # no simplify
+        mNoSimplification = QgsVectorSimplifyMethod()
+        mNoSimplification.setSimplifyHints(QgsVectorSimplifyMethod.NoSimplification)
+        self.vl.setSimplifyMethod(mNoSimplification)
         # add layer to the legend
         QgsMapLayerRegistry.instance().addMapLayer(self.vl)
 
@@ -214,37 +240,34 @@ class tissDialog(QDialog, Ui_Tiss):
                 mergedlist = list(startpoint + rightlist + middlePoint + leftlist)
                 # add a feature
                 fet = QgsFeature()
+                fet2 = QgsFeature()
                 fet.setGeometry(QgsGeometry.fromPolygon([mergedlist]))
+                fet2.setGeometry(QgsGeometry.fromMultiPoint(mergedlist))
                 fet.setAttributes([float(lon), float(lat)])
+                fet2.setAttributes([float(lon), float(lat)])
                 self.pr.addFeatures([fet])
+                self.pr2.addFeatures([fet2])
 
     def tiss_lines(self):
         # set up inner points
-        latlist = range(self.minlat, self.maxlat + self.innerplat, self.innerplat)
-        lonlist = range(self.minlon, self.maxlon + self.innerplat, self.innerplon)
-        r = self.radius / self.R
+        latlist = range(self.minlat2, self.maxlat2 +  self.innerplat2, self.innerplat2)
+        lonlist = range(self.minlon2, self.maxlon2 + self.innerplat2, self.innerplon2)
+        lres = self.resl
         for lon in lonlist:
-            for lat in latlist:
-                tlat = numpy.radians(lat)
-                # creating line features
-                # calculate horizontal limit
-                lres = self.resl
-                vlinelist = list(numpy.linspace((lat - numpy.degrees(r)), (lat + numpy.degrees(r)), num=lres))
-                # parallel circle
-                parallelRadius = numpy.cos(tlat) * self.R
-                hlinelist = list(numpy.linspace((lon - numpy.degrees(self.radius / parallelRadius)),
-                                                (lon + numpy.degrees(self.radius / parallelRadius)), num=lres))
-                vlist = []
-                hlist = []
-                for v in vlinelist:
-                    vlist.append(QgsPoint(lon, v))
-                for h in hlinelist:
-                    hlist.append(QgsPoint(h, lat))
-                fetv = QgsFeature()
-                feth = QgsFeature()
-                fetv.setGeometry(QgsGeometry.fromPolyline(vlist))
-                feth.setGeometry(QgsGeometry.fromPolyline(hlist))
-                fetv.setAttributes([float(lon), float(lat)])
-                feth.setAttributes([float(lon), float(lat)])
-                self.pr.addFeatures([fetv])
-                self.pr.addFeatures([feth])
+            vlinelist = list(numpy.linspace(self.minlat2, self.maxlat2, num=lres))
+            vlist = []
+            for v in vlinelist:
+                vlist.append(QgsPoint(lon, v))
+            fetv = QgsFeature()
+            fetv.setGeometry(QgsGeometry.fromPolyline(vlist))
+            fetv.setAttributes([float(lon), float(0)])
+            self.pr.addFeatures([fetv])
+        for lat in latlist:
+            vlinelist = list(numpy.linspace(self.minlon2, self.maxlon2, num=lres))
+            vlist = []
+            for v in vlinelist:
+                vlist.append(QgsPoint(v, lat))
+            fetv = QgsFeature()
+            fetv.setGeometry(QgsGeometry.fromPolyline(vlist))
+            fetv.setAttributes([float(0), float(lat)])
+            self.pr.addFeatures([fetv])
