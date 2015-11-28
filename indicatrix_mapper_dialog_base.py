@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\temp\indicatrix_mapper_dialog_base_new.ui'
+# Form implementation generated from reading ui file 'c:\Users\ervin\.qgis2\python\plugins\tiss\indicatrix_mapper_dialog_base.ui'
 #
-# Created: Thu Nov 26 19:14:41 2015
+# Created: Sat Nov 28 13:53:21 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,6 +34,9 @@ class Ui_Tiss(object):
         Tiss.setSizePolicy(sizePolicy)
         Tiss.setMinimumSize(QtCore.QSize(500, 280))
         Tiss.setMaximumSize(QtCore.QSize(1000, 500))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/plugins/tiss/icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Tiss.setWindowIcon(icon)
         self.btnRun = QtGui.QPushButton(Tiss)
         self.btnRun.setGeometry(QtCore.QRect(470, 260, 131, 23))
         self.btnRun.setObjectName(_fromUtf8("btnRun"))
@@ -318,12 +321,24 @@ class Ui_Tiss(object):
         self.chkBoxAux.setFont(font)
         self.chkBoxAux.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.chkBoxAux.setObjectName(_fromUtf8("chkBoxAux"))
+        self.label = QtGui.QLabel(Tiss)
+        self.label.setGeometry(QtCore.QRect(115, 220, 20, 20))
+        self.label.setText(_fromUtf8(""))
+        self.label.setPixmap(QtGui.QPixmap(_fromUtf8(":/plugins/tiss/graticule.png")))
+        self.label.setScaledContents(True)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.label_2 = QtGui.QLabel(Tiss)
+        self.label_2.setGeometry(QtCore.QRect(115, 80, 20, 20))
+        self.label_2.setText(_fromUtf8(""))
+        self.label_2.setPixmap(QtGui.QPixmap(_fromUtf8(":/plugins/tiss/graticule.png")))
+        self.label_2.setScaledContents(True)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
 
         self.retranslateUi(Tiss)
         QtCore.QMetaObject.connectSlotsByName(Tiss)
 
     def retranslateUi(self, Tiss):
-        Tiss.setWindowTitle(_translate("Tiss", "Tiss", None))
+        Tiss.setWindowTitle(_translate("Tiss", "Indicatrix Mapper", None))
         self.btnRun.setText(_translate("Tiss", "Run!", None))
         self.lblLongMin_2.setText(_translate("Tiss", "Lon. max", None))
         self.lblLongMin_3.setText(_translate("Tiss", "Lat. min", None))
@@ -350,6 +365,7 @@ class Ui_Tiss(object):
         self.chkBoxNPole.setText(_translate("Tiss", "Circle on north pole", None))
         self.chkBoxAux.setText(_translate("Tiss", "Auxiliary points", None))
 
+import resources_rc
 
 if __name__ == "__main__":
     import sys

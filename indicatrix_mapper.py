@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- tiss
+ Indicatrix Mapper
                                  A QGIS plugin
  The plugin presents the tiss-indicatrix (quick-and-dirty Tissot-indicatrix realization) introduced by Szabó & Wirth.
 The tiss-indicatrix uses circles of constant (in this case 800 kilometers) radius instead of the original infinitesimal circles.
