@@ -10,8 +10,14 @@
 name=Indicatrix mapper
 qgisMinimumVersion=2.0
 description=The plugin projects the tiss-circles from a reference sphere to a selected projection. By the usage of On The Fly (OTF) transformation method we can study the distortions of the circles in a blink. 
+about=The plugin introduces the tiss-indicatrix (quick-and-dirty Tissot-indicatrix realization) term by Szabó and Wirth. The tiss-indicatrix uses circles of constant radius (tisses) instead of the original infinitesimal circles. QGIS contains approximately 2700 categorized projections.
+    With the latitude and longitude parameters you can define the resolution of tisses and the graticule. The graticule and tiss segments means the preciseness of the circle and the axes (parallels, meridians). By increasing their segment-value they are getting more precise, exact. The radius parameter means the magnitude of projecting tiss circles. In case of adding more layers untick the Simplify geometry at Rendering.
+    ----------
+	Authors:
+	Ervin Wirth: Budapest University of Technology and Economics, Department of Photogrammetry and Geoinformatics, PhD student
+	Péter Kun: NNG Ltd. Technical writer
 version=1.1
-author=Ervin Wirth, Peter Kun
+author=Ervin Wirth (BME), Peter Kun (NNG Ltd.)
 email=wirthervin@gmail.com, kunpeter01@gmail.com
 
 # End of mandatory metadata
