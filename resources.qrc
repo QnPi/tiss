@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/tiss" >
-        <file>icon.png</file>
-        <file>graticule.png</file>
-    </qresource>
-</RCC>
